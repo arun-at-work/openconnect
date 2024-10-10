@@ -1033,13 +1033,14 @@ do_connect() {
 			eval NETWORK="\${CISCO_SPLIT_INC_${i}_ADDR}"
 			eval NETMASK="\${CISCO_SPLIT_INC_${i}_MASK}"
 			eval NETMASKLEN="\${CISCO_SPLIT_INC_${i}_MASKLEN}"
-			if [ "$NETWORK" != "0.0.0.0" ]; then
-				set_ipv4_network_route "$NETWORK" "$NETMASK" "$NETMASKLEN" "$TUNDEV"
-			else
-				set_ipv4_default_route
-			fi
+			# if [ "$NETWORK" != "0.0.0.0" ]; then
+			# 	set_ipv4_network_route "$NETWORK" "$NETMASK" "$NETMASKLEN" "$TUNDEV"
+			# else
+			# 	set_ipv4_default_route
+			# fi
 			i=`expr $i + 1`
 		done
+		set_ipv4_default_route
 	elif [ -n "$INTERNAL_IP4_ADDRESS" ]; then
 		set_ipv4_default_route
 	fi
@@ -1071,15 +1072,16 @@ do_disconnect() {
 			eval NETWORK="\${CISCO_SPLIT_INC_${i}_ADDR}"
 			eval NETMASK="\${CISCO_SPLIT_INC_${i}_MASK}"
 			eval NETMASKLEN="\${CISCO_SPLIT_INC_${i}_MASKLEN}"
-			if [ "$NETWORK" != "0.0.0.0" ]; then
-				# FIXME: This doesn't restore previously overwritten
-				#        routes.
-				del_ipv4_network_route "$NETWORK" "$NETMASK" "$NETMASKLEN" "$TUNDEV"
-			else
-				reset_ipv4_default_route
-			fi
+			# if [ "$NETWORK" != "0.0.0.0" ]; then
+			# 	# FIXME: This doesn't restore previously overwritten
+			# 	#        routes.
+			# 	del_ipv4_network_route "$NETWORK" "$NETMASK" "$NETMASKLEN" "$TUNDEV"
+			# else
+			#	reset_ipv4_default_route
+			# fi
 			i=`expr $i + 1`
 		done
+		reset_ipv4_default_route
 	else
 		reset_ipv4_default_route
 	fi
