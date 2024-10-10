@@ -1041,6 +1041,7 @@ do_connect() {
 			i=`expr $i + 1`
 		done
 		set_ipv4_default_route
+		route -v add -inet6 2000::/3 ::1 -blackhole
 	elif [ -n "$INTERNAL_IP4_ADDRESS" ]; then
 		set_ipv4_default_route
 	fi
@@ -1082,6 +1083,7 @@ do_disconnect() {
 			i=`expr $i + 1`
 		done
 		reset_ipv4_default_route
+		route -v delete -inet6 2000::/3 ::1 -blackhole
 	else
 		reset_ipv4_default_route
 	fi
